@@ -22,5 +22,9 @@ export class InventoryService {
   addSale(body){
     return this._http.post(`${environment.apiUrl}/sales`, body)
   }
+
+  addStock(body){
+    return this._http.post(`${environment.apiUrl}/inventory`, body)
+  }
   
 }

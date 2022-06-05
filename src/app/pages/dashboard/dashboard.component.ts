@@ -32,6 +32,18 @@ export class DashboardComponent implements OnInit {
   mon = this.date.getMonth() + 1
   year = this.date.getFullYear()
 
+  stockPurchasePrice = 0
+  stockSellingPrice = 0
+
+  setStockPurchasePrice(v){
+    this.stockPurchasePrice = v
+  }
+
+  setStockSellingPrice(v){
+    this.stockSellingPrice = v
+  }
+
+
   todayDate = `${this.year}-${this.mon <= 9 ? '0'+ this.mon : this.mon}-${this.day <= 9 ? '0'+ this.day : this.day}`
  
 
@@ -41,6 +53,27 @@ export class DashboardComponent implements OnInit {
     private toastr: ToastrService,
     private _cust: CustomersService
   ) {}
+
+  async addStock(){
+    
+
+    if(this.quantity == 0 || this.stockPurchasePrice == 0 || this.stockSellingPrice == 0 || this.purchaseDate == "")
+      return this.showNotification('top', 'right', "All fields are required", false)
+
+      await this._inventory.addStock({
+        open: this.quantity,
+        cost_price: this.stockPurchasePrice,
+        selling_price: this.stockSellingPrice,
+        purchase_date: this.purchaseDate
+      }).subscribe((res: any) => {
+        
+        if(res.status){
+          this.showNotification('top', 'right', res.message, res.status)
+        }else{
+          this.showNotification('top', 'right', res.message, res.status)
+        }
+      })
+  }
 
   async addSale(){
     let body = {

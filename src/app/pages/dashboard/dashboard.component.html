@@ -471,12 +471,40 @@
         <div class=" card-header">
           <h5 class=" card-category">Add Stock</h5>
         </div>
-          <div class="card-body">
-            <label> Quantity </label>
-          <input (change)="setQuantity($event.target.value)" [ngModel]="quantity" class="form-control"
-                  type="number" placeholder="Quantity">
-                  <button (click)="addSale()" class="btn btn-info mt-3">Add</button>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col">
+              <label> Quantity </label>
+              <input (change)="setQuantity($event.target.value)" [ngModel]="quantity" class="form-control" type="number"
+                placeholder="Quantity">
+            </div>
+            <div class="col">
+              <label class=""> Purchase Date </label>
+              <input (change)="setPruchaseDate($event.target.value)" [ngModel]="purchaseDate" class="form-control" type="date"
+                placeholder="">
+            </div>
           </div>
+
+          <div class="row mt-4">
+            
+            <div class="col">
+              <label class=""> Purchase Price </label>
+              <input (change)="setStockPurchasePrice($event.target.value)" [ngModel]="stockPurchasePrice" class="form-control" type="number"
+                placeholder="">
+            </div>
+            <div class="col">
+              <label> Selling Price </label>
+              <input (change)="setStockSellingPrice($event.target.value)" [ngModel]="stockSellingPrice" class="form-control" type="number"
+                placeholder="">
+            </div>
+          </div>
+
+
+
+          <button (click)="addStock()" class="btn btn-success btn-block mt-4">Add Stock</button>
+          <div class="mb-1"></div>
+        </div>
       </div>
     </div>
     <div class=" col-lg-4">
@@ -506,7 +534,7 @@
               </div>
             </div>
 
-            <button (click)="addSale()" class="btn btn-info mt-2 w-100">Add</button>
+            <button (click)="addSale()" class="btn btn-info mt-2 w-100">Add Sale</button>
             <div class="mb-1"></div>
 
           </form>
