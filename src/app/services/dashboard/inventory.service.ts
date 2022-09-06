@@ -11,8 +11,8 @@ export class InventoryService {
 
   constructor(private _http: HttpClient) { }
 
-   getInventory(date) {
-    return  this._http.get(`${environment.apiUrl}/inventory?date=${date}`)
+   getInventory() {
+    return  this._http.get(`${environment.apiUrl}/inventory/get-inventory`)
   }
 
   getSales(date){
@@ -25,6 +25,10 @@ export class InventoryService {
 
   addStock(body){
     return this._http.post(`${environment.apiUrl}/inventory`, body)
+  }
+
+  addSellingPrice(body){
+    return this._http.post(`${environment.apiUrl}/inventory/add-selling-price`, body)
   }
   
 }

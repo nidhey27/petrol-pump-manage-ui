@@ -78,6 +78,66 @@
       </div>
     </div> -->
 
+    <div class="col-lg-12">
+      <div class="card ">
+        <div class=" card-header">
+          <h3 class=" card-title">
+            <i class=" tim-icons icon-bell-55 text-warning"> </i> &nbsp; <b>Insights</b>
+            &nbsp;<span [ngClass]="{'text-success': totalSaleAmt > totalPurchasePrice, 'text-danger': totalPurchasePrice > totalSaleAmt }"  class=" font-weight-bold">
+             {{ (totalSaleAmt - totalPurchasePrice) | currency: 'INR' }}  ({{ (totalSaleAmt - totalPurchasePrice) /
+              totalSaleAmt * 100 | number: '2.' }} %)</span>
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class=" card-body p-0">
+            <div class="row">
+              <div class="col">
+                <div class=" table-responsive" style="overflow: hidden;">
+                  <table class=" table tablesorter table-bordered" id="">
+                    <tbody>
+                      <tr>
+                        <td class="font-weight-bold">Open</td>
+                        <td>{{ totalOpenStock }} liters</td>
+                      </tr>
+                      <tr>
+                        <td class="font-weight-bold">Close</td>
+                        <td>{{ totalCloseStock }} liters</td>
+                      </tr>
+                      <tr>
+                        <td class="font-weight-bold">Selling Price</td>
+                        <td>{{todaysSP | currency: 'INR'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col">
+                <div class=" table-responsive" style="overflow: hidden;">
+                  <table class=" table tablesorter table-bordered" id="">
+                    <tbody>
+                      <tr>
+                        <td class="font-weight-bold">Total Sold Quantity</td>
+                        <td>{{ totalSaleQty | number: '' }} liters</td>
+                      </tr>
+                      <tr>
+                        <td class="font-weight-bold">Total Sold Price</td>
+                        <td>{{ totalSaleAmt | currency: 'INR' }}</td>
+                      </tr>
+                      <tr>
+                        <td class="font-weight-bold">Total Purchased Price</td>
+                        <td>{{ totalPurchasePrice | currency: 'INR' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- <div class=" col-lg-4">
       <div class=" card card-chart">
         <div class=" card-header">
@@ -370,18 +430,18 @@
   </div> -->
   <div class=" row">
 
-    <div class=" col-lg-4">
-      <input class="form-control" type="date" (change)="fetchData($event.target.value)" [ngModel]="todayDate"><br>
+    <!-- <div class=" col-lg-4"> -->
+    <!-- <input class="form-control" type="date" (change)="fetchData($event.target.value)" [ngModel]="todayDate"><br>
       <div class=" card card-chart">
         <div class=" card-header">
 
           <h3 class="mb-0">Sales: {{ todayDate | date:
             "dd-MM-yyyy" }} </h3>
           <div>
-            <!-- <h5 class=" card-category">{{ inventoryData?.inventory_data[0]?.purchase_date | date: "dd-MM-yyyy" }}</h5> -->
+            <h5 class=" card-category">{{ inventoryData?.inventory_data[0]?.purchase_date | date: "dd-MM-yyyy" }}</h5>
 
             <div class="card-body">
-              <!-- <div class="row ">
+              <div class="row ">
                 <div class="col">
                   Open :
                 </div>
@@ -410,10 +470,10 @@
                   Selling Price :
                 </div>
                 
-              </div> -->
+              </div>
 
 
-              <!-- <div class="row ">
+              <div class="row ">
                 <div class="col">
                   Total Stock Sold :
                 </div>
@@ -436,20 +496,38 @@
                       currency: 'INR' }}</small>
                   </h3>
                 </div>
-              </div> -->
+              </div>
 
             </div>
           </div>
-          <!-- <h3 class=" card-title">
+          <h3 class=" card-title">
             <i class=" tim-icons icon-send text-danger"> </i>   <small>1000 liters</small>
            
           </h3>
           <h3 class=" card-title">
             
             <i class=" tim-icons icon-delivery-fast text-info"> </i> <small>Rs. 5000.00</small>
-          </h3> -->
+          </h3>
         </div>
 
+      </div> -->
+    <!-- </div> -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class=" card-header">
+          <h3 class=" card-title">
+            <i class=" tim-icons icon-settings-gear-63 text-success"> </i> Add Selling Price <br> <b>{{todayDate | date:
+              'dd-MM-yyyy'}}</b>
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="col">
+            <input (change)="setStockSellingPrice($event.target.value)" [ngModel]="stockSellingPrice"
+              class="form-control" type="number" placeholder="">
+
+            <button (click)="addSellingPrice()" class="btn btn-secomdary btn-block mt-4">Add</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class=" col-lg-4">
@@ -479,11 +557,11 @@
               <input (change)="setStockPurchasePrice($event.target.value)" [ngModel]="stockPurchasePrice"
                 class="form-control" type="number" placeholder="">
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <label> Selling Price </label>
               <input (change)="setStockSellingPrice($event.target.value)" [ngModel]="stockSellingPrice"
                 class="form-control" type="number" placeholder="">
-            </div>
+            </div> -->
           </div>
 
 
@@ -530,7 +608,7 @@
   </div>
   <div class=" row">
 
-    <div class=" col-md-12">
+    <div class=" col-md-8">
       <div class=" card">
         <div class=" card-header d-inline">
           <h4 class=" card-title">Sales Details</h4>
@@ -572,7 +650,7 @@
       </div>
     </div>
 
-    <div class=" col-lg-12">
+    <div class=" col-lg-4">
       <div class=" card card-chart">
         <div class=" card-header">
           <h5 class=" card-category">Daily Sales</h5>
@@ -583,10 +661,12 @@
             <i class=" tim-icons icon-delivery-fast text-info"> </i> Sold {{ totalSaleAmt | currency: 'INR' }}
           </span>
           <span class="font-weight-bold card-title">
-            <i class=" tim-icons icon-delivery-fast text-info"> </i> Purchased {{ totalPurchasePrice | currency: 'INR' }}
+            <i class=" tim-icons icon-delivery-fast text-info"> </i> Purchased {{ totalPurchasePrice | currency: 'INR'
+            }}
           </span>
           <span class="font-weight-bold card-title">
-            <i class=" tim-icons icon-delivery-fast text-info"> </i> Profit {{ (totalSaleAmt - totalPurchasePrice) / totalSaleAmt * 100 | number: '2.' }} % 
+            <i class=" tim-icons icon-delivery-fast text-info"> </i> Profit {{ (totalSaleAmt - totalPurchasePrice) /
+            totalSaleAmt * 100 | number: '2.' }} %
           </span>
         </div>
         <div class=" card-body">

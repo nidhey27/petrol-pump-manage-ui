@@ -27,6 +27,8 @@ export class DashboardComponent implements OnInit {
   quantity = 0
   purchaseDate = ""
 
+  todaysSP = 0
+
   date = new Date()
   day = this.date.getDate()
   mon = this.date.getMonth() + 1
@@ -38,6 +40,9 @@ export class DashboardComponent implements OnInit {
   totalSaleQty = 0
   totalSaleAmt = 0
   totalPurchasePrice = 0
+
+  totalOpenStock = 0
+  totalCloseStock = 0
 
   setStockPurchasePrice(v) {
     this.stockPurchasePrice = v
@@ -61,14 +66,30 @@ export class DashboardComponent implements OnInit {
   async addStock() {
 
 
-    if (this.quantity == 0 || this.stockPurchasePrice == 0 || this.stockSellingPrice == 0 || this.purchaseDate == "")
+    if (this.quantity == 0 || this.stockPurchasePrice == 0 || this.purchaseDate == "")
       return this.showNotification('top', 'right', "All fields are required", false)
 
     await this._inventory.addStock({
-      open: this.quantity,
-      cost_price: this.stockPurchasePrice,
-      selling_price: this.stockSellingPrice,
-      purchase_date: this.purchaseDate
+      open_quantity: this.quantity,
+      purchase_price: this.stockPurchasePrice,
+      purchase_date: this.purchaseDate,
+      added_by: sessionStorage.getItem("uid")
+    }).subscribe((res: any) => {
+
+      if (res.status) {
+        this.showNotification('top', 'right', res.message, res.status)
+      } else {
+        this.showNotification('top', 'right', res.message, res.status)
+      }
+    })
+  }
+
+  async addSellingPrice() {
+    if (this.stockSellingPrice == 0)
+      return this.showNotification('top', 'right', "Selling Price are required", false)
+
+    await this._inventory.addSellingPrice({
+      selling_price: this.stockSellingPrice
     }).subscribe((res: any) => {
 
       if (res.status) {
@@ -129,24 +150,21 @@ export class DashboardComponent implements OnInit {
 
   async fetchData(e) {
     // alert(this.todayDate)
-
-    (await this._cust.getAllCustomers()).subscribe((res: any) => {
-      if (res.status) {
-        this.customersData = res.data
-        // this.showNotification('top', 'right', "Todays Sales Data Loaded", res.status)
-      }
-
-
-    })
-
     this.todayDate = e
+    this.totalOpenStock = 0
+    this.totalCloseStock = 0
 
-    await this._inventory.getInventory(this.todayDate).subscribe((res: any) => {
+    await this._inventory.getInventory().subscribe((res: any) => {
 
-      console.log(res);
 
       if (res.status) {
-        this.inventoryData = res
+        this.inventoryData = res.data
+
+        this.inventoryData.forEach(e => {
+          this.totalOpenStock += e.open_quantity
+          this.totalCloseStock += e.close_quantity
+        })
+        this.todaysSP = res.selling_price
         this.showNotification('top', 'right', "Todays Sales Data Loaded", res.status)
       }
 
@@ -156,9 +174,20 @@ export class DashboardComponent implements OnInit {
       // }
 
 
-      console.log(res);
+
+
+    });
+
+    (await this._cust.getAllCustomers()).subscribe((res: any) => {
+      if (res.status) {
+        // console.log(res);     
+        this.customersData = res.data
+      }
+
 
     })
+
+
 
 
   }
@@ -693,7 +722,6 @@ export class DashboardComponent implements OnInit {
     //   options: gradientChartOptionsConfigurationWithTooltipRed
     // };
     // this.myChartData = new Chart(this.ctx, config);
-
 
 
 
