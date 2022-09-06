@@ -63,8 +63,8 @@
       </div>
     </div>
   </div> -->
-  <!-- <div class=" row">
-    <div class=" col-lg-4">
+  <div class=" row">
+    <!-- <div class=" col-lg-4">
       <div class=" card card-chart">
         <div class=" card-header">
           <h5 class=" card-category">Total Shipments</h5>
@@ -76,21 +76,9 @@
           <div class=" chart-area"><canvas id="chartLineRed"> </canvas></div>
         </div>
       </div>
-    </div>
-    <div class=" col-lg-4">
-      <div class=" card card-chart">
-        <div class=" card-header">
-          <h5 class=" card-category">Daily Sales</h5>
-          <h3 class=" card-title">
-            <i class=" tim-icons icon-delivery-fast text-info"> </i> 3,500€
-          </h3>
-        </div>
-        <div class=" card-body">
-          <div class=" chart-area"><canvas id="CountryChart"> </canvas></div>
-        </div>
-      </div>
-    </div>
-    <div class=" col-lg-4">
+    </div> -->
+
+    <!-- <div class=" col-lg-4">
       <div class=" card card-chart">
         <div class=" card-header">
           <h5 class=" card-category">Completed Tasks</h5>
@@ -102,8 +90,8 @@
           <div class=" chart-area"><canvas id="chartLineGreen"> </canvas></div>
         </div>
       </div>
-    </div>
-  </div> -->
+    </div> -->
+  </div>
   <!-- <div class=" row">
     <div class=" col-lg-6 col-md-12">
       <div class=" card card-tasks">
@@ -387,18 +375,18 @@
       <div class=" card card-chart">
         <div class=" card-header">
 
-          <h3 *ngIf="inventoryData.length != 0" class="mb-0">Sales: {{ todayDate | date:
+          <h3 class="mb-0">Sales: {{ todayDate | date:
             "dd-MM-yyyy" }} </h3>
-          <div *ngIf="inventoryData.length != 0">
-            <h5 class=" card-category">{{ inventoryData?.data[0]?.purchase_date | date: "dd-MM-yyyy" }}</h5>
+          <div>
+            <!-- <h5 class=" card-category">{{ inventoryData?.inventory_data[0]?.purchase_date | date: "dd-MM-yyyy" }}</h5> -->
 
             <div class="card-body">
-              <div class="row ">
+              <!-- <div class="row ">
                 <div class="col">
                   Open :
                 </div>
                 <div class="col">
-                  {{ inventoryData?.data[0]?.open_quantity }} liters
+                  {{ inventoryData?.inventory_data[0]?.open_quantity }} liters
                 </div>
               </div>
               <div class="row ">
@@ -406,7 +394,7 @@
                   Close :
                 </div>
                 <div class="col">
-                  {{ inventoryData?.data[0]?.close_quantity }} liters
+                  {{ inventoryData?.inventory_data[0]?.close_quantity }} liters
                 </div>
               </div>
               <div class="row ">
@@ -414,20 +402,18 @@
                   Purchase Price :
                 </div>
                 <div class="col">
-                  {{ inventoryData?.data[0]?.purchase_price | currency: 'INR' }}
+                  {{ inventoryData?.inventory_data[0]?.purchase_price | currency: 'INR' }}
                 </div>
               </div>
               <div class="row ">
                 <div class="col">
                   Selling Price :
                 </div>
-                <div class="col">
-                  {{ inventoryData?.data[0]?.selling_price | currency: 'INR' }}
-                </div>
-              </div>
+                
+              </div> -->
 
 
-              <div class="row ">
+              <!-- <div class="row ">
                 <div class="col">
                   Total Stock Sold :
                 </div>
@@ -450,7 +436,7 @@
                       currency: 'INR' }}</small>
                   </h3>
                 </div>
-              </div>
+              </div> -->
 
             </div>
           </div>
@@ -481,22 +467,22 @@
             </div>
             <div class="col">
               <label class=""> Purchase Date </label>
-              <input (change)="setPruchaseDate($event.target.value)" [ngModel]="purchaseDate" class="form-control" type="date"
-                placeholder="">
+              <input (change)="setPruchaseDate($event.target.value)" [ngModel]="purchaseDate" class="form-control"
+                type="date" placeholder="">
             </div>
           </div>
 
           <div class="row mt-4">
-            
+
             <div class="col">
               <label class=""> Purchase Price </label>
-              <input (change)="setStockPurchasePrice($event.target.value)" [ngModel]="stockPurchasePrice" class="form-control" type="number"
-                placeholder="">
+              <input (change)="setStockPurchasePrice($event.target.value)" [ngModel]="stockPurchasePrice"
+                class="form-control" type="number" placeholder="">
             </div>
             <div class="col">
               <label> Selling Price </label>
-              <input (change)="setStockSellingPrice($event.target.value)" [ngModel]="stockSellingPrice" class="form-control" type="number"
-                placeholder="">
+              <input (change)="setStockSellingPrice($event.target.value)" [ngModel]="stockSellingPrice"
+                class="form-control" type="number" placeholder="">
             </div>
           </div>
 
@@ -543,10 +529,14 @@
     </div>
   </div>
   <div class=" row">
+
     <div class=" col-md-12">
       <div class=" card">
-        <div class=" card-header">
+        <div class=" card-header d-inline">
           <h4 class=" card-title">Sales Details</h4>
+
+          <input (change)="getSales($event.target.value)" type="date" [value]="todayDate" name="" id=""
+            class="form-control" style="width: 20%;">
         </div>
         <div class=" card-body">
           <div class=" table-responsive">
@@ -567,9 +557,40 @@
                   <td>{{ s.purchase_date | date: 'dd-MM-yyyy' }}</td>
                 </tr>
 
+                <tr *ngIf="salesData.length == 0">
+
+                  <td>No Sales Data Found</td>
+                  <td>No Sales Data Found</td>
+                  <td>No Sales Data Found</td>
+                  <td>No Sales Data Found</td>
+                </tr>
+
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-lg-12">
+      <div class=" card card-chart">
+        <div class=" card-header">
+          <h5 class=" card-category">Daily Sales</h5>
+          <span class="font-weight-bold card-title">
+            <i class=" tim-icons icon-delivery-fast text-info"> </i> {{ totalSaleQty | number: '' }} liters
+          </span>
+          <span class="font-weight-bold card-title">
+            <i class=" tim-icons icon-delivery-fast text-info"> </i> Sold {{ totalSaleAmt | currency: 'INR' }}
+          </span>
+          <span class="font-weight-bold card-title">
+            <i class=" tim-icons icon-delivery-fast text-info"> </i> Purchased {{ totalPurchasePrice | currency: 'INR' }}
+          </span>
+          <span class="font-weight-bold card-title">
+            <i class=" tim-icons icon-delivery-fast text-info"> </i> Profit {{ (totalSaleAmt - totalPurchasePrice) / totalSaleAmt * 100 | number: '2.' }} % 
+          </span>
+        </div>
+        <div class=" card-body">
+          <div class=" chart-area"><canvas id="CountryChart"> </canvas></div>
         </div>
       </div>
     </div>
