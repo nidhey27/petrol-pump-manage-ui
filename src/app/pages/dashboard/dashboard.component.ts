@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   custId = ""
   quantity = 0
   purchaseDate = ""
+  paymentType = ""
 
   todaysSP = 0
 
@@ -50,6 +51,9 @@ export class DashboardComponent implements OnInit {
 
   setStockSellingPrice(v) {
     this.stockSellingPrice = v
+  }
+  setPaymentType(v){
+    this.paymentType = v
   }
 
 
@@ -78,8 +82,11 @@ export class DashboardComponent implements OnInit {
 
       if (res.status) {
         this.showNotification('top', 'right', res.message, res.status)
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
       } else {
-        this.showNotification('top', 'right', res.message, res.status)
+        this.showNotification('top', 'right', res.error, res.status)
       }
     })
   }
@@ -94,8 +101,11 @@ export class DashboardComponent implements OnInit {
 
       if (res.status) {
         this.showNotification('top', 'right', res.message, res.status)
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
       } else {
-        this.showNotification('top', 'right', res.message, res.status)
+        this.showNotification('top', 'right', res.error, res.status)
       }
     })
   }
@@ -104,14 +114,20 @@ export class DashboardComponent implements OnInit {
     let body = {
       purchase_date: this.purchaseDate,
       c_id: this.custId,
-      quantity: this.quantity
+      quantity: this.quantity,
+      payment_type: this.paymentType
     }
 
+    // return console.log(body);
+    
     await this._inventory.addSale(body).subscribe((res: any) => {
       if (res.status) {
         this.showNotification('top', 'right', res.message, res.status)
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
       } else {
-        this.showNotification('top', 'right', res.message, res.status)
+        this.showNotification('top', 'right', res.error, res.status)
       }
     })
   }

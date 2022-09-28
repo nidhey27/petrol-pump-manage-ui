@@ -83,8 +83,10 @@
         <div class=" card-header">
           <h3 class=" card-title">
             <i class=" tim-icons icon-bell-55 text-warning"> </i> &nbsp; <b>Insights</b>
-            &nbsp;<span [ngClass]="{'text-success': totalSaleAmt > totalPurchasePrice, 'text-danger': totalPurchasePrice > totalSaleAmt }"  class=" font-weight-bold">
-             {{ (totalSaleAmt - totalPurchasePrice) | currency: 'INR' }}  ({{ (totalSaleAmt - totalPurchasePrice) /
+            &nbsp;<span
+              [ngClass]="{'text-success': totalSaleAmt > totalPurchasePrice, 'text-danger': totalPurchasePrice > totalSaleAmt }"
+              class=" font-weight-bold">
+              {{ (totalSaleAmt - totalPurchasePrice) | currency: 'INR' }} ({{ (totalSaleAmt - totalPurchasePrice) /
               totalSaleAmt * 100 | number: '2.' }} %)</span>
           </h3>
         </div>
@@ -580,11 +582,27 @@
         <div class=" card-body">
           <form>
             <!-- <input type="text" class="form-control" placeholder="Customer Name" name="" id=""> -->
-            <label> Customer </label>
-            <select (change)="setCustomer($event.target.value)" [ngModel]="custId" class="form-control" name="" id="">
-              <option value="">Select Customer</option>
-              <option *ngFor="let c of customersData" [value]="c.id">{{ c.name }}</option>
-            </select>
+            <div class="row">
+              <div class="col">
+                <label> Customer </label>
+                <select (change)="setCustomer($event.target.value)" [ngModel]="custId" class="form-control" name=""
+                  id="">
+                  <option value="">Select</option>
+                  <option *ngFor="let c of customersData" [value]="c.id">{{ c.name }}</option>
+                </select>
+              </div>
+              <div class="col">
+                <label> Payment Mode </label>
+                <select class="form-control" name="" id="" (change)="setPaymentType($event.target.value)"
+                  [ngModel]="paymentType">
+
+                  <option value="">Select</option>
+                  <option value="upi">UPI</option>
+                  <option value="cash">CASH</option>
+                  <option value="card">CARD</option>
+                </select>
+              </div>
+            </div>
             <div class="row">
               <div class="col">
                 <label> Quantity </label>
@@ -625,6 +643,7 @@
                   <th>Name</th>
                   <th>Quantity</th>
                   <th>Purchase Date</th>
+                  <th>Payment Mode</th>
                 </tr>
               </thead>
               <tbody>
@@ -633,6 +652,10 @@
                   <td>{{ s.customer_tbl.name }}</td>
                   <td>{{ s.quantity }} liters</td>
                   <td>{{ s.purchase_date | date: 'dd-MM-yyyy' }}</td>
+                  <td class="text-uppercase text-bold"> <span 
+                    style="font-weight: bold;"
+                    [ngClass]="[s.payment_type == 'upi' ? 'text-danger' : '', s.payment_type == 'card' ? 'text-success' : '', s.payment_type == 'cash' ? 'text-primary' : '']">
+                    {{ s.payment_type }}</span> </td>
                 </tr>
 
                 <tr *ngIf="salesData.length == 0">

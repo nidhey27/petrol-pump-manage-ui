@@ -1,0 +1,86 @@
+<div class=" content">
+    <div class="row">
+        <h2>Sales Reports</h2>
+
+
+    </div>
+
+    <div class=" row">
+
+        <div class=" col-md-12">
+            <div class=" card">
+                <div class=" card-header d-inline">
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="Date">Date</label>
+                            <input (change)="setDate($event.target.value)" type="date" [value]="todayDate" name=""
+                                id="" class="form-control" style="width: 100%;">
+                        </div>
+                        <div class="col">
+                            <label for="Date">From</label>
+                            <input (change)="setFromDate($event.target.value)" type="date" [value]="fromDate" name=""
+                                id="" class="form-control" style="width: 100%;">
+                        </div>
+                        <div class="col">
+                            <label for="Date">To</label>
+                            <input (change)="setToDate($event.target.value)" type="date" [value]="toDate" name=""
+                                id="" class="form-control" style="width: 100%;">
+                        </div>
+                        <div class="col">
+                            <label> Customer </label>
+                            <select (change)="setCustomer($event.target.value)" [ngModel]="custId" class="form-control"
+                                name="" id="">
+                                <option value="">Select</option>
+                                <option *ngFor="let c of customersData" [value]="c.id">{{ c.name }}</option>
+                            </select>
+                        </div>
+                        <div class="col align-self-center ">
+                            <!-- <label for="">Get</label> -->
+                            <button (click)="getSales()" class="btn btn-primary">Get Report</button>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class=" card-body">
+                    <div class=" table-responsive">
+                        <table class=" table tablesorter" id="">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Purchase Date</th>
+                                    <th>Payment Mode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of salesData; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ s.customer_tbl.name }}</td>
+                                    <td>{{ s.quantity }} liters</td>
+                                    <td>{{ s.purchase_date | date: 'dd-MM-yyyy' }}</td>
+                                    <td class="text-uppercase text-bold"> <span style="font-weight: bold;"
+                                            [ngClass]="[s.payment_type == 'upi' ? 'text-danger' : '', s.payment_type == 'card' ? 'text-success' : '', s.payment_type == 'cash' ? 'text-primary' : '']">
+                                            {{ s.payment_type }}</span> </td>
+                                </tr>
+
+                                <tr *ngIf="salesData.length == 0">
+
+                                    <td>No Sales Data Found</td>
+                                    <td>No Sales Data Found</td>
+                                    <td>No Sales Data Found</td>
+                                    <td>No Sales Data Found</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

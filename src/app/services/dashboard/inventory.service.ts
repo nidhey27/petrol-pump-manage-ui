@@ -15,8 +15,18 @@ export class InventoryService {
     return  this._http.get(`${environment.apiUrl}/inventory/get-inventory`)
   }
 
-  getSales(date){
-    return  this._http.get(`${environment.apiUrl}/sales?date=${date}`)
+  getSales(date, fromDate: any = "", toDate: any = "", cutomer_id: any = ""){
+
+    let url = "/sales?"
+
+    if(date)
+      url += `date=${date}&`
+    if(fromDate && toDate)
+      url += `from_date=${fromDate}&to_date=${toDate}&`
+    if(cutomer_id)
+      url += `customer_id=${cutomer_id}&`
+
+    return  this._http.get(`${environment.apiUrl}${url}`)
   }
 
   addSale(body){

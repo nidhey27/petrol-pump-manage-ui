@@ -15,6 +15,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
 import { LoginComponent } from './pages/login/login.component';
 import { CustomersComponent } from './pages/customers/customers.component';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,7 @@ import { CustomersComponent } from './pages/customers/customers.component';
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, CustomersComponent],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, CustomersComponent, ReportsComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
